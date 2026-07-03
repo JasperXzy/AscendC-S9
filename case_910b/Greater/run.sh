@@ -1,5 +1,10 @@
 #!/bin/bash
 export LD_LIBRARY_PATH=$ASCEND_OPP_PATH/vendors/customize/op_api/lib/:$LD_LIBRARY_PATH
+if [ -x "/home/ma-user/gcc/bin/gcc" ] && [ -x "/home/ma-user/gcc/bin/g++" ]; then
+    export PATH=/home/ma-user/gcc/bin:$PATH
+    export CC=/home/ma-user/gcc/bin/gcc
+    export CXX=/home/ma-user/gcc/bin/g++
+fi
   # 清除上次测试性能文件
 #rm -rf ./dist/*
 if [ "x$1" == "x1" ]; then

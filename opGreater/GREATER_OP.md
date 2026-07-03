@@ -47,16 +47,17 @@ cd /home/ma-user/work/AscendC-S9
 
 ## Implementation Notes
 
-The current generated code is only a skeleton:
+The current implementation is a correctness-first baseline:
 
-- `op_host/greater.cpp` must be updated for broadcast shape inference and richer tiling.
-- `op_host/greater_tiling.h` currently stores only `size`; it needs shape, stride, dtype, and fast-path metadata.
-- `op_kernel/greater.cpp` currently contains only the generated kernel entry and TODO.
+- `op_host/greater.cpp` infers the broadcast output shape and serializes tiling data for output shape and input broadcast strides.
+- `op_host/greater_tiling.h` stores total output elements, rank, blockDim, output shape, and input strides.
+- `op_kernel/greater.cpp` maps each output linear index to `self` and `other` offsets and writes a bool result.
 
-Suggested implementation order:
+Testing helpers:
 
-1. Implement correct host-side broadcast shape inference.
-2. Add tiling fields for total output elements, rank, input/output shapes, broadcast strides, dtype, and fast-path kind.
-3. Implement a generic kernel fallback that maps each output linear index to `self` and `other`.
-4. Add fast paths for same-shape contiguous input and common last-dimension broadcasting.
-5. Verify dtype support on `modelart-s9`, especially `bfloat16`, `int32`, and `int8` comparison paths.
+```bash
+cd case_910b/Greater
+bash run_extended.sh --install
+```
+
+Remote CANN build and runtime verification have been completed on `modelart-s9`. The next optimization step should add vectorized fast paths for contiguous same-shape tensors and common broadcast forms.
