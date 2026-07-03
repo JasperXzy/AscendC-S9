@@ -1,0 +1,21 @@
+.DS_Store
+
+# Large local CANN documentation mirror; keep docs/Tasks tracked.
+docs/CANNCommunityEdition/
+
+# Python and pybind build artifacts.
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# CANN/operator build and profiling artifacts.
+build_out/
+PROF*/
+*.run
+*.zip
+
+# Local editor/cache files.
+.idea/
+.vscode/
